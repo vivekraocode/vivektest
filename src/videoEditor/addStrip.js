@@ -1,8 +1,8 @@
 import { ElementsIdWise } from "./elements";
 import { fabric } from "fabric";
 
-function Strip({elementId, canvasFabric, currentTime, pixpersecond,gridYgap}){
-    console.log(elementId, currentTime, pixpersecond,gridYgap)
+function Strip({elementId, canvasMain, currentTime, pixpersecond,gridYgap}){
+    console.log(elementId, canvasMain, currentTime, pixpersecond,gridYgap)
     return(
         <button id={elementId+"-strip"} onClick={() => {
             let strip = new fabric.Rect({ 
@@ -30,7 +30,7 @@ function Strip({elementId, canvasFabric, currentTime, pixpersecond,gridYgap}){
                 bl: false,
                 br: false
             });
-            canvasFabric.add(strip);
+            canvasMain.add(strip);
         }}>video</button>
     )
 }
