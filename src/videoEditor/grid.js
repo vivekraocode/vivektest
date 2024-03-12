@@ -1,7 +1,9 @@
-export const Grid = (canvasMain, layers) => {
-    var count = Math.max(intialLayers,layers);
-    for (var i = 0; i < count; i++) {
-        canvasMain.add(new fabric.Line([0, i * gridYgap, canvasFabricEffect.width, i * gridYgap], {
+import { fabric } from 'fabric';
+
+export const Grid = (canvasMain, Layers, gridYgap) => {
+    canvasMain.setHeight((Layers+1)*gridYgap);
+    for (var i = 0; i < Layers+1; i++) {
+        canvasMain.add(new fabric.Line([0, i * gridYgap, canvasMain.width, i * gridYgap], {
             type: 'line',
             stroke: '#ffffff',
             selectable: false

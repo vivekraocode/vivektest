@@ -1,31 +1,36 @@
-export const Scale = (canvasScale,duration) => {
-    const context = canvasScale.getContext('2d');
-    let width = Math.max(initialDuration*pixpersecond,duration*pixpersecond)
-    canvasScale.width = width;
-    console.log(canvasScale.width, canvasScaleFabric.getWidth());
-    canvasScale.width = width;
+import { fabric } from 'fabric';
 
-    context.fillStyle = 'black';
-    context.fillRect(0, 0, canvasScale.width, 30);
-
-    context.fillStyle = 'white';
-    context.font = '12px Arial';
-    context.textAlign = 'center';
-
+export const Scale = (canvasMain,duration,pixpersecond,gridYgap) => {
     const timeInterval = 5*pixpersecond;
-    for (let i = 0; i <= canvasScale.width; i += timeInterval) {
-      context.fillText((Math.floor(i / 600))+ ":" + ("0" + Math.floor((i / 10) % 60)).slice(-2), i+3, 30);
-      context.strokeStyle = 'white';
-      context.beginPath();
-      context.moveTo(i, 0);
-      context.lineTo(i, 20);
-      context.stroke();
-    }
-    for (let i = 0; i <= canvasScale.width; i += timeInterval/5) {
-      context.strokeStyle = 'white';
-      context.beginPath();
-      context.moveTo(i, 0);
-      context.lineTo(i, 10);
-      context.stroke();
-    }
+    const smallIndexHeight = 10;
+    const largeIndexHeight = 20;
+
+    for (var i = 0; i < canvasMain.width; i += pixpersecond) {
+      if(i%timeInterval==0){
+        //adding largeIndexes
+        console.log("true");
+        canvasMain.add(new fabric.Line([i, 0, i, largeIndexHeight], {
+            type: 'line',
+            stroke: '#ffffff',
+            selectable: false
+        }));
+        
+        //adding labels
+        canvasMain.add(new fabric.Text(String(Math.floor((i/pixpersecond) / (60))) + ":" + ((i/pixpersecond)%60 < 10 ? "0" : "") + String((i/pixpersecond)%60), {
+            left: i,
+            top: largeIndexHeight+2,
+            fill: '#ffffff',
+            fontSize: 12,
+            fontFamily: 'Arial',
+        }));
+      }
+      else{
+        //adding smallindexes
+        canvasMain.add(new fabric.Line([i, 0, i, smallIndexHeight], {
+            type: 'line',
+            stroke: '#ffffff',
+            selectable: false
+        }));
+      }
+    } 
 }
