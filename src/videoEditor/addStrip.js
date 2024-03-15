@@ -1,12 +1,14 @@
 import { fabric } from "fabric";
+import { ElementsIdWise } from "./elements";
 
 function Strip({elementId, canvasMain, currentTime, pixpersecond,gridYgap}){
     return(
-        <button id={elementId+"-strip"} onClick={() => {
+        <button id={elementId+"-strip"} 
+        onClick={() => {
             let strip = new fabric.Rect({ 
                     left: currentTime, 
-                    top: 0, 
-                    width: 600,//ElementsIdWise[elementId]["trueDuration"]*pixpersecond, 
+                    top: gridYgap, 
+                    width: ElementsIdWise[elementId]["trueDuration"]*pixpersecond, 
                     height: gridYgap, 
                     type: 'rectangle',
                     fill: '#fab', 
@@ -18,8 +20,41 @@ function Strip({elementId, canvasMain, currentTime, pixpersecond,gridYgap}){
                     selectable: true,
                     centeredRotation: true
             });
+            strip.setControlsVisibility({
+                mt: false,
+                mb: false,
+                ml: true,
+                mr: true,
+                tl: false,
+                tr: false,
+                mtr: false,
+                bl: false,
+                br: false
+            });
+            strip.on("modified", function () {
+                const boundingBox = strip.getBoundingRect();
+                const canvasWidth = canvasMain.width;
+                const canvasHeight = canvasMain.height;
+
+                if (boundingBox.left < 0) {
+                    strip.set({ left: 0 });
+                }
+                if (boundingBox.top < gridYgap) {
+                    strip.set({ top: gridYgap });
+                }
+                if (boundingBox.left + boundingBox.width > canvasWidth) {
+                    strip.set({ left: canvasWidth - boundingBox.width });
+                }
+                if (boundingBox.top + boundingBox.height > canvasHeight) {
+                    strip.set({ top: canvasHeight - boundingBox.height });
+                }
+
+                canvasMain.renderAll();
+            });
             canvasMain.add(strip);
-        }}>video</button>
+        }}>
+            video
+        </button>
     )
 }
 

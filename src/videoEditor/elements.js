@@ -13,10 +13,10 @@ export function element() {
 }
 
 export let ElementsIdWise = {
-    "video" : {
+    "testing" : {
         "id" : "testing",
-        "trueDuration": 6000,
-        "trimmedDuration" : 6000,
+        "trueDuration": 60,
+        "trimmedDuration" : 60,
         "startTime": 0,
         "srcUrl": "",
         "srcType": "video",
